@@ -1,0 +1,9 @@
+Brother MFC-J5740DW SinRoot Assistant
+Version: 1.3.0
+Date: 2026-11-04
+Target: Ubuntu/Debian x86_64
+Typography: Inter (PDF embedded; GUI detection with Tk fallback)
+Brand palette: Puntos Vuela yellow / green / coral / olive / blue
+Developer: Francisco Javier Gallego Orellana
+Center: Punto Vuela Montejaque
+Bundled driver: brscan5 1.8.0-0 amd64
