@@ -1,14 +1,16 @@
-# Guía de instalación
+# Guía y fuentes
 
-La documentación principal se encuentra en [Guía Brother MFC-J5740DW SinRoot (PDF)](Guia_Brother_MFC-J5740DW_SinRoot.pdf).
+La guía principal es [Guía Brother MFC-J5740DW SinRoot (PDF)](Guia_Brother_MFC-J5740DW_SinRoot.pdf).
 
-El PDF recoge requisitos del equipo, pasos de instalación sin root, detección Wi-Fi, configuración de Brother brscan5 y selección del alimentador automático ADF.
+Su fuente HTML editable está en `source/guia.html`. El PDF tiene cuatro páginas A4, incorpora la tipografía Inter y recoge los datos del desarrollador y del Punto Vuela Montejaque, la paleta de colores de referencia, los pasos de instalación, el uso ADF, la gestión visual y la resolución de problemas.
 
-El archivo HTML editable está en `source/guia.html`. Para regenerar el PDF en un entorno de desarrollo con WeasyPrint e Inter instalados:
+Para regenerar el PDF en un equipo de desarrollo con WeasyPrint y la familia Inter disponibles:
 
 ```bash
 python3 - <<'PY'
 from weasyprint import HTML
-HTML(filename='docs/source/guia.html').write_pdf('docs/Guia_Brother_MFC-J5740DW_SinRoot.pdf')
+HTML(filename='docs/source/guia.html', base_url='docs/source').write_pdf(
+    'docs/Guia_Brother_MFC-J5740DW_SinRoot.pdf'
+)
 PY
 ```
