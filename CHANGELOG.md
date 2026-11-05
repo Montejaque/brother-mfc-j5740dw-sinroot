@@ -1,17 +1,13 @@
-# Cambios
+# Historial de cambios
 
-## 1.3.0 - 2026-11-04
+## 1.5.0
+- Interfaz unificada con Inicio, Gestión, Diagnóstico y actividad, y Ayuda.
+- Detección eSCL en la red, comprobación de conexión y dirección IP manual.
+- Uso preferente del controlador brscan5 original incluido en drivers/, con verificación SHA-256.
+- Instalación por usuario, extracción aislada, registro Brother y apertura de Escáner de documentos mediante bubblewrap.
+- Gestión de reparación, accesos directos, carpetas, copias/restauración, informes y desinstalación.
+- Instalador actualizado: copia los componentes necesarios y crea el acceso al asistente.
+- Guía PDF de cuatro páginas con Inter incrustada, datos del centro y paleta Puntos Vuela.
 
-- Publicación inicial en el repositorio privado `Montejaque/brother-mfc-j5740dw-sinroot`.
-- README ampliado con instalación, requisitos, estructura, seguridad y enlace directo al PDF.
-- Guía PDF regenerada y comprobada visualmente; corregido el desbordamiento de columnas.
-- Actualizada la versión de la interfaz a 1.3.0.
-- Controlador Brother brscan5 1.8.0-0 incluido localmente y validado por SHA-256.
-
-## 1.2.0 - 2026-11-04
-
-- Añadidos desarrollador y datos verificados del Punto Vuela Montejaque.
-- Aplicada la paleta visual Puntos Vuela en la interfaz y la guía.
-- Rediseñada la guía PDF con Inter, paleta de marca y cuatro páginas.
-- Añadido HTML de origen y referencias documentales.
-- Mantenido el controlador Brother brscan5 1.8.0-0 incluido.
+## 1.4.0
+- Interfaz de gestión con pestañas y herramientas de diagnóstico y mantenimiento.
