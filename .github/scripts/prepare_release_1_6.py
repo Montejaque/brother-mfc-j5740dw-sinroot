@@ -44,7 +44,7 @@ new_shortcuts = '''def create_shortcuts(log=None):
         shutil.copy2(icon_source, icon_target)
         icon_value = str(icon_target)
 
-    exec_path = str(launcher).replace("\\", "\\\\").replace('"', '\\"')
+    exec_path = str(launcher).replace("\\\\", "\\\\\\\\").replace('"', '\\\\"')
     launcher_command = f'"{exec_path}"'
     entries = [
         ("brother-mfc-j5740dw-assistant.desktop", "Asistente Brother MFC-J5740DW", "Gestionar instalación, diagnóstico y configuración Brother", launcher_command),
