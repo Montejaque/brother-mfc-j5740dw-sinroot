@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="Francisco Javier Gallego Orellana">
+<meta name="title" content="Guía Brother MFC-J5740DW SinRoot">
+<meta name="subject" content="Instalación, configuración y gestión visual del escáner Brother por Wi-Fi sin privilegios de administrador">
+<meta name="keywords" content="Brother MFC-J5740DW, brscan5, Ubuntu, Debian, SANE, ADF, Punto Vuela Montejaque">
+<title>Guía Brother MFC-J5740DW SinRoot</title>
+<style>
+@page { size: A4; margin: 0; }
+:root {
+  --yellow:#F3D54E; --green:#7BA880; --coral:#E56359; --olive:#AE9E3A;
+  --blue:#87ACD4; --ink:#26332C; --muted:#68756D; --paper:#FBFAF6;
+  --line:#E6E1D5; --soft-yellow:#FFF7D8; --soft-green:#EDF4EE;
+  --soft-blue:#EDF3F9; --soft-coral:#FFF0ED; --white:#FFFFFF;
+}
+* { box-sizing:border-box; }
+html,body { margin:0; padding:0; color:var(--ink); font-family:Inter,"Inter Display",sans-serif; font-size:9.25pt; line-height:1.42; }
+.page { width:210mm; height:297mm; padding:15mm 16mm 16mm; position:relative; overflow:hidden; background:var(--paper); page-break-after:always; }
+.page:last-child { page-break-after:auto; }
+.topline { height:3mm; background:var(--yellow); margin:-15mm -16mm 10mm; }
+.eyebrow { font-size:8pt; font-weight:750; letter-spacing:1.25px; color:var(--green); text-transform:uppercase; }
+h1 { font-size:28pt; line-height:1.08; letter-spacing:-1px; margin:5mm 0 3mm; font-weight:780; }
+h2 { font-size:17pt; line-height:1.15; margin:0 0 5mm; letter-spacing:-.35px; }
+h3 { font-size:11pt; margin:0 0 2mm; font-weight:730; }
+p { margin:0 0 3mm; }
+.small { font-size:8pt; color:var(--muted); }
+.lead { font-size:12pt; color:#4F5D54; line-height:1.45; max-width:160mm; }
+.pill { display:inline-block; padding:1.5mm 3.2mm; border-radius:30px; background:var(--soft-green); color:#3E6947; font-weight:700; font-size:8pt; }
+.hero { background:var(--ink); color:var(--white); border-radius:5mm; padding:9mm; margin:8mm 0 6mm; position:relative; }
+.hero h2 { color:var(--yellow); margin-bottom:2mm; font-size:20pt; }
+.hero p { color:#EDF1EB; max-width:132mm; font-size:10pt; margin-bottom:0; }
+.hero-mark { position:absolute; right:8mm; top:8mm; width:22mm; height:22mm; border:3mm solid var(--green); border-radius:50%; opacity:.9; }
+.meta-grid { display:table; width:100%; border-spacing:2mm 0; margin:5mm -2mm 6mm; }
+.meta { display:table-cell; width:33.33%; background:var(--white); border:1px solid var(--line); border-radius:3mm; padding:3.5mm; vertical-align:top; }
+.meta strong { display:block; font-size:8pt; color:var(--muted); margin-bottom:1mm; text-transform:uppercase; letter-spacing:.5px; }
+.meta span { font-size:10pt; font-weight:720; }
+.card-grid { display:table; width:100%; border-spacing:2mm 0; margin:3mm -2mm; }
+.card { display:table-cell; width:33.33%; vertical-align:top; padding:4mm; border:1px solid var(--line); background:var(--white); border-radius:3mm; }
+.card .number { font-size:19pt; font-weight:800; margin-bottom:1mm; color:var(--green); }
+.card:nth-child(2) .number { color:var(--olive); }
+.card:nth-child(3) .number { color:var(--coral); }
+.card p { font-size:8.4pt; color:var(--muted); margin:0; }
+.callout { border-left:3px solid var(--yellow); background:var(--soft-yellow); padding:3.5mm 4mm; border-radius:0 2.5mm 2.5mm 0; margin:4mm 0; }
+.callout.green { border-color:var(--green); background:var(--soft-green); }
+.callout.blue { border-color:var(--blue); background:var(--soft-blue); }
+.callout.coral { border-color:var(--coral); background:var(--soft-coral); }
+.step { display:table; width:100%; margin:0 0 4mm; }
+.step-no { display:table-cell; width:11mm; vertical-align:top; }
+.step-no span { display:inline-block; width:8mm; height:8mm; line-height:8mm; text-align:center; border-radius:50%; background:var(--yellow); font-weight:800; }
+.step-body { display:table-cell; vertical-align:top; }
+.step-body p { margin:0; color:var(--muted); }
+.code { background:#26332C; color:#F7F8F4; border-radius:2mm; padding:3.5mm 4mm; font-family:DejaVu Sans Mono,monospace; font-size:8pt; margin:3mm 0 4mm; }
+.code .faint { color:#D8E3D8; }
+.two-col { display:table; width:100%; border-spacing:3mm 0; margin:2mm -3mm; }
+.col { display:table-cell; width:50%; vertical-align:top; }
+.bullet { margin:0 0 2.2mm; padding-left:4mm; position:relative; }
+.bullet:before { content:""; position:absolute; left:0; top:1.7mm; width:1.7mm; height:1.7mm; background:var(--green); border-radius:50%; }
+.ui-list { width:100%; border-collapse:collapse; margin:3mm 0; }
+.ui-list td { vertical-align:top; padding:2.5mm 2mm; border-bottom:1px solid var(--line); }
+.ui-list td:first-child { width:38mm; font-weight:720; color:var(--green); }
+.footer { position:absolute; left:16mm; right:16mm; bottom:8mm; border-top:1px solid var(--line); padding-top:2.5mm; display:table; width:178mm; color:var(--muted); font-size:7.2pt; }
+.footer .left,.footer .right { display:table-cell; }
+.footer .right { text-align:right; }
+.brand-strip { height:2mm; margin-top:3mm; background:linear-gradient(90deg,var(--yellow) 0 35%,var(--green) 35% 55%,var(--coral) 55% 70%,var(--olive) 70% 85%,var(--blue) 85% 100%); border-radius:2mm; }
+.contact { background:var(--ink); color:#F8F9F4; padding:5mm; border-radius:3mm; margin-top:4mm; }
+.contact h3 { color:var(--yellow); }
+.contact .contact-line { margin-top:1.5mm; font-size:9pt; }
+.tag { display:inline-block; background:var(--soft-blue); color:#486784; border-radius:2mm; padding:1mm 2mm; font-size:7.4pt; font-weight:700; }
+.warning { background:var(--soft-coral); border:1px solid #F3C5BE; border-radius:3mm; padding:4mm; margin:3mm 0; }
+.no-break { break-inside:avoid; }
+</style>
+</head>
+<body>
+<section class="page">
+  <div class="topline"></div>
+  <div class="eyebrow">Punto Vuela Montejaque · Asistente Linux SinRoot · Versión 1.5.0</div>
+  <h1>Brother<br>MFC-J5740DW</h1>
+  <p class="lead">Guía de instalación, configuración y gestión del escáner por Wi-Fi en Ubuntu y Debian, sin privilegios de administrador.</p>
+  <div class="hero">
+    <div class="hero-mark"></div>
+    <div class="eyebrow" style="color:#BBD4BE">Controlador oficial Brother incluido</div>
+    <h2>brscan5 · 1.8.0-0 · amd64</h2>
+    <p>El paquete DEB original proporcionado para este proyecto acompaña a la aplicación. El asistente lo localiza automáticamente en <strong>drivers/</strong>, comprueba su integridad y lo prepara en el perfil de usuario.</p>
+  </div>
+  <div class="meta-grid">
+    <div class="meta"><strong>Desarrollador</strong><span>Francisco Javier<br>Gallego Orellana</span></div>
+    <div class="meta"><strong>Compatibilidad</strong><span>Ubuntu / Debian<br>x86_64 · 64 bits</span></div>
+    <div class="meta"><strong>Conexión</strong><span>Wi-Fi / LAN<br>eSCL + SANE</span></div>
+  </div>
+  <h2 style="font-size:14pt;margin:4mm 0 2mm">Tres pasos para empezar</h2>
+  <div class="card-grid">
+    <div class="card"><div class="number">01</div><h3>Detectar</h3><p>Busca la impresora en la red local o introduce su dirección IP.</p></div>
+    <div class="card"><div class="number">02</div><h3>Configurar</h3><p>Valida el DEB incluido, prepara Brother 5 y registra el escáner.</p></div>
+    <div class="card"><div class="number">03</div><h3>Escanear</h3><p>Abre Escáner de documentos y selecciona el alimentador ADF.</p></div>
+  </div>
+  <div class="callout green"><strong>Instalación por usuario.</strong> No se ejecuta <span class="tag">sudo</span>, <span class="tag">dpkg -i</span> ni el script postinst de Brother. El controlador se extrae en el perfil personal y se ejecuta dentro de un espacio aislado con bubblewrap.</div>
+  <div class="footer"><div class="left">Brother MFC-J5740DW SinRoot · Punto Vuela Montejaque</div><div class="right">Guía de instalación y uso · 1 / 4</div></div>
+</section>
+
+<section class="page">
+  <div class="topline"></div>
+  <div class="eyebrow">01 · Preparación e instalación</div>
+  <h2>Antes de comenzar</h2>
+  <p>El equipo y la impresora deben estar conectados a la misma red local. Esta aplicación no instala componentes globales del sistema: comprueba los requisitos y explica qué falta antes de empezar.</p>
+  <div class="two-col">
+    <div class="col">
+      <h3>Requisitos del ordenador</h3>
+      <div class="bullet">Ubuntu o Debian de 64 bits (x86_64).</div>
+      <div class="bullet">Python 3 con Tkinter.</div>
+      <div class="bullet">SANE y su biblioteca <strong>libsane</strong>.</div>
+      <div class="bullet">Bubblewrap (<strong>bwrap</strong>) con espacios de nombres de usuario permitidos.</div>
+      <div class="bullet">Escáner de documentos (<strong>simple-scan</strong>).</div>
+      <div class="bullet">Acceso de red a la MFC-J5740DW.</div>
+    </div>
+    <div class="col">
+      <h3>Contenido del paquete</h3>
+      <div class="bullet">Asistente gráfico <strong>app.py</strong>.</div>
+      <div class="bullet">Instalador, lanzador y desinstalador.</div>
+      <div class="bullet">Controlador original <strong>brscan5-1.8.0-0.amd64.deb</strong>.</div>
+      <div class="bullet">Guía PDF y archivos de referencia.</div>
+      <div class="bullet">Verificación SHA-256 antes de extraer.</div>
+    </div>
+  </div>
+  <div class="callout coral"><strong>Si falta un requisito global:</strong> el asistente no puede instalarlo sin root. Pide a una persona administradora que instale ese componente una sola vez; después podrás usar la herramienta con tu cuenta habitual.</div>
+  <h3 style="margin-top:5mm">Instalación rápida</h3>
+  <div class="step"><div class="step-no"><span>1</span></div><div class="step-body"><strong>Extrae la carpeta completa.</strong><p>No muevas el DEB fuera de <strong>drivers/</strong> ni separes esa carpeta del resto del proyecto.</p></div></div>
+  <div class="step"><div class="step-no"><span>2</span></div><div class="step-body"><strong>Abre una terminal en la carpeta extraída.</strong><p>Utiliza tu usuario normal; no abras la terminal como administrador.</p></div></div>
+  <div class="code">./instalar.sh</div>
+  <div class="step"><div class="step-no"><span>3</span></div><div class="step-body"><strong>Se abre el asistente.</strong><p>La instalación copia el proyecto a <strong>~/.local/share/brother-mfc-j5740dw/app/</strong> y añade el acceso al menú de aplicaciones.</p></div></div>
+  <div class="step"><div class="step-no"><span>4</span></div><div class="step-body"><strong>En Inicio, pulsa Detectar.</strong><p>La aplicación consulta el servicio eSCL y comprueba que el equipo sea una MFC-J5740DW con capacidades ADF. Si la búsqueda automática no la encuentra, escribe la IP manualmente.</p></div></div>
+  <div class="step"><div class="step-no"><span>5</span></div><div class="step-body"><strong>Pulsa Instalar y configurar.</strong><p>Se validan los requisitos, se comprueba el DEB, se extrae en el perfil personal, se prepara SANE y se registra el escáner en la IP detectada.</p></div></div>
+  <div class="callout blue"><strong>Controlador preferido:</strong> <span class="tag">drivers/brscan5-1.8.0-0.amd64.deb</span>. La aplicación busca primero este archivo incluido y solo ofrece descarga alternativa si no está disponible o no supera la verificación.</div>
+  <div class="footer"><div class="left">Instalación sin root · El DEB original se conserva sin modificar</div><div class="right">2 / 4</div></div>
+</section>
+
+<section class="page">
+  <div class="topline"></div>
+  <div class="eyebrow">02 · Interfaz y uso diario</div>
+  <h2>Una sola aplicación para gestionarlo todo</h2>
+  <p>La interfaz agrupa las tareas en cuatro pestañas. El estado superior y el registro de actividad permiten ver qué está haciendo el asistente y si una operación ha terminado.</p>
+  <table class="ui-list">
+    <tr><td>Inicio</td><td><strong>Detección Wi-Fi</strong>, introducción de IP, comprobación eSCL, validación del controlador, instalación y apertura de Escáner de documentos.</td></tr>
+    <tr><td>Gestión</td><td><strong>Reparar el registro Brother</strong>, crear accesos directos, hacer copias de seguridad, restaurar configuración, abrir carpetas de trabajo y desinstalar la aplicación.</td></tr>
+    <tr><td>Diagnóstico y actividad</td><td>Comprueba bwrap, SANE, simple-scan, controlador, extracción, registro, tipografía y conexión eSCL. Permite guardar o copiar un informe.</td></tr>
+    <tr><td>Ayuda y acerca de</td><td>Preguntas frecuentes, datos de Punto Vuela Montejaque, autoría y enlaces a Brother y al centro.</td></tr>
+  </table>
+  <h3 style="margin-top:5mm">Escanear desde el alimentador automático (ADF)</h3>
+  <div class="step"><div class="step-no"><span>1</span></div><div class="step-body"><strong>En Inicio, pulsa Abrir escáner.</strong><p>Se inicia Escáner de documentos con las rutas virtuales de Brother 5 y el archivo de configuración personal.</p></div></div>
+  <div class="step"><div class="step-no"><span>2</span></div><div class="step-body"><strong>Selecciona el origen Alimentador automático / ADF.</strong><p>No elijas Cristal / Platen si deseas usar la bandeja superior.</p></div></div>
+  <div class="step"><div class="step-no"><span>3</span></div><div class="step-body"><strong>Para originales a doble cara, activa dúplex.</strong><p>La disponibilidad de la opción depende de la selección de origen y de la versión de la aplicación de escaneo.</p></div></div>
+  <div class="step"><div class="step-no"><span>4</span></div><div class="step-body"><strong>Inicia la digitalización y verifica el recorrido del papel.</strong><p>La prueba definitiva del ADF es que el original entre por los rodillos superiores; el estado eSCL de papel cargado no demuestra por sí solo el origen utilizado.</p></div></div>
+  <div class="callout green"><strong>Consejo:</strong> coloca los originales alineados en la bandeja ADF, ajusta las guías laterales y empieza con una hoja de prueba antes de escanear un lote.</div>
+  <h3 style="margin-top:4mm">Copias y restauración</h3>
+  <p>En <strong>Gestión</strong>, crea una copia ZIP del registro de dispositivo Brother y de la configuración de backends SANE. La restauración solo acepta esos archivos conocidos y muestra una confirmación antes de sustituirlos. Las imágenes y documentos escaneados no se incluyen en esta copia.</p>
+  <div class="footer"><div class="left">Interfaz visual · Gestión · Diagnóstico · Copias de configuración</div><div class="right">3 / 4</div></div>
+</section>
+
+<section class="page">
+  <div class="topline"></div>
+  <div class="eyebrow">03 · Seguridad, mantenimiento y soporte</div>
+  <h2>Qué hace y qué no hace</h2>
+  <div class="two-col">
+    <div class="col">
+      <h3>Dentro del perfil personal</h3>
+      <div class="bullet">Extrae el contenido del DEB en <strong>~/.local/share/brother-mfc-j5740dw/</strong>.</div>
+      <div class="bullet">Guarda el registro Brother en <strong>~/.config/brother/brscan5/</strong>.</div>
+      <div class="bullet">Mantiene los backends eSCL y Brother 5 en <strong>~/.config/sane-brscan5/</strong>.</div>
+      <div class="bullet">Ejecuta el configurador y simple-scan dentro de bubblewrap, simulando las rutas absolutas de Brother.</div>
+    </div>
+    <div class="col">
+      <h3>Fuera del alcance</h3>
+      <div class="bullet">No instala paquetes DEB con dpkg ni ejecuta scripts postinst.</div>
+      <div class="bullet">No modifica CUPS ni las colas de impresión.</div>
+      <div class="bullet">No desinstala ni altera brscan4.</div>
+      <div class="bullet">No escribe en /usr, /opt o /etc reales.</div>
+      <div class="bullet">No copia los documentos escaneados a servidores remotos.</div>
+    </div>
+  </div>
+  <div class="warning"><strong>Limitación importante:</strong> el modo sin root no puede incorporar dependencias globales que falten ni desbloquear políticas del sistema que impidan los espacios de nombres de usuario. Si bwrap, SANE, Tkinter o simple-scan no están instalados o están bloqueados, la aplicación lo mostrará en Diagnóstico y será necesaria una intervención administrativa puntual.</div>
+  <h3>Solución de problemas</h3>
+  <div class="step"><div class="step-no"><span>!</span></div><div class="step-body"><strong>No encuentra la impresora.</strong><p>Comprueba que el ordenador y la Brother están en la misma red. Usa la IP manual y pulsa Comprobar conexión.</p></div></div>
+  <div class="step"><div class="step-no"><span>!</span></div><div class="step-body"><strong>No aparece el controlador.</strong><p>Confirma que drivers/brscan5-1.8.0-0.amd64.deb está junto a app.py. El diagnóstico indicará si el SHA-256 coincide.</p></div></div>
+  <div class="step"><div class="step-no"><span>!</span></div><div class="step-body"><strong>El ADF no aparece en Escáner de documentos.</strong><p>Abre Gestión, repara el registro Brother y vuelve a iniciar la aplicación de escaneo. Revisa el informe de Diagnóstico y actividad.</p></div></div>
+  <div class="step"><div class="step-no"><span>!</span></div><div class="step-body"><strong>Necesitas soporte.</strong><p>Guarda el informe desde Diagnóstico y actividad. No incluye documentos escaneados; revisa los datos antes de compartirlo.</p></div></div>
+  <div class="contact">
+    <h3>Punto Vuela Montejaque</h3>
+    <div class="contact-line">Avenida Andalucía, 48 · 29360 Montejaque (Málaga)</div>
+    <div class="contact-line">633 402 959 · montejaque@puntosvuela.es</div>
+    <div class="contact-line">puntosvuela.es/centros/montejaque</div>
+    <div class="contact-line" style="margin-top:4mm;color:#DDE8DD;font-size:8pt">Desarrollador: Francisco Javier Gallego Orellana</div>
+  </div>
+  <div class="brand-strip"></div>
+  <p class="small" style="margin-top:3mm">Versión 1.5.0 · Guía PDF de cuatro páginas · Tipografía Inter incrustada. El controlador brscan5 es software propietario de Brother Industries, Ltd.; se distribuye sin modificar y este proyecto no es una aplicación oficial de Brother.</p>
+  <div class="footer"><div class="left">Punto Vuela Montejaque · Brother MFC-J5740DW SinRoot</div><div class="right">4 / 4</div></div>
+</section>
+</body>
+</html>
