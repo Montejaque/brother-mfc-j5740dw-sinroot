@@ -4,8 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "app.py.gz.b64"
-      - "docs/source/guia.html.gz.b64"
+      - "build-source/**"
       - ".github/workflows/publish-assets.yml"
       - "README.md"
   workflow_dispatch:
@@ -20,26 +19,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Restore source files
+      - name: Restore exact application and guide source
         shell: bash
         run: |
           set -euo pipefail
-          if [[ -f app.py.gz.b64 ]]; then
-            base64 --decode app.py.gz.b64 | gzip -dc > app.py
-            rm app.py.gz.b64
-          fi
-          if [[ -f docs/source/guia.html.gz.b64 ]]; then
-            mkdir -p docs/source
-            base64 --decode docs/source/guia.html.gz.b64 | gzip -dc > docs/source/guia.html
-            rm docs/source/guia.html.gz.b64
-          fi
+          mkdir -p docs/source
+          cat build-source/app.part* > /tmp/app.py.gz.b64
+          base64 --decode /tmp/app.py.gz.b64 | gzip -t
+          base64 --decode /tmp/app.py.gz.b64 | gzip -dc > app.py
+          base64 --decode build-source/guia.html.gz.b64 | gzip -t
+          base64 --decode build-source/guia.html.gz.b64 | gzip -dc > docs/source/guia.html
+          rm -rf build-source app.py.gz.b64 docs/source/guia.html.gz.b64
 
       - name: Install PDF build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y fonts-inter python3-weasyprint zip
+          sudo apt-get install -y fonts-inter python3-weasyprint poppler-utils zip
 
-      - name: Fetch and verify the exact Brother driver
+      - name: Obtain and verify the Brother driver supplied for this project
         shell: bash
         run: |
           set -euo pipefail
@@ -61,32 +58,32 @@ jobs:
           )
           PY
           pdfinfo docs/Guia_Brother_MFC-J5740DW_SinRoot.pdf | grep -E "Pages: *4|Page size:.*A4"
-          pdffonts docs/Guia_Brother_MFC-J5740DW_SinRoot.pdf | grep -q Inter
+          pdffonts docs/Guia_Brother_MFC-J5740DW_SinRoot.pdf | grep -qi Inter
 
-      - name: Validate application and package
+      - name: Validate source, installer and package
         run: |
+          set -euo pipefail
           python3 -m py_compile app.py
           bash -n instalar.sh iniciar.sh desinstalar.sh
           test -s docs/Guia_Brother_MFC-J5740DW_SinRoot.pdf
           test -s drivers/brscan5-1.8.0-0.amd64.deb
 
-      - name: Build portable ZIP artifact
+      - name: Build portable ZIP
         run: |
+          set -euo pipefail
           mkdir -p dist
           zip -qr dist/Brother_MFC-J5740DW_SinRoot_1.5.0.zip . \
-            -x ".git/*" "dist/*" "__pycache__/*" "*.pyc" \
-               "app.py.gz.b64" "docs/source/guia.html.gz.b64"
+            -x ".git/*" "dist/*" "__pycache__/*" "*.pyc" "docs/render-check/*"
 
-      - name: Commit generated source assets
+      - name: Commit the built files into the private repository
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add app.py docs/source/guia.html docs/Guia_Brother_MFC-J5740DW_SinRoot.pdf drivers/brscan5-1.8.0-0.amd64.deb
-          git add -u app.py.gz.b64 docs/source/guia.html.gz.b64 2>/dev/null || true
           if ! git diff --cached --quiet; then
-            git commit -m "build: publish Brother driver and PDF guide for v1.5.0"
+            git commit -m "build: publish application, exact Brother DEB and PDF guide"
             git push
           fi
 
