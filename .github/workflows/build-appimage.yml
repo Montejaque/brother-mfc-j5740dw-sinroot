@@ -24,10 +24,10 @@ jobs:
           export DEBIAN_FRONTEND=noninteractive
           # Mantener glibc 2.31 como base compatible con Ubuntu 20.04 de destino.
           cat > /etc/apt/sources.list <<'APT'
-          deb http://old-releases.ubuntu.com/ubuntu focal main universe restricted multiverse
-          deb http://old-releases.ubuntu.com/ubuntu focal-updates main universe restricted multiverse
-          deb http://old-releases.ubuntu.com/ubuntu focal-security main universe restricted multiverse
-          deb http://old-releases.ubuntu.com/ubuntu focal-backports main universe restricted multiverse
+          deb http://archive.ubuntu.com/ubuntu focal main universe restricted multiverse
+          deb http://archive.ubuntu.com/ubuntu focal-updates main universe restricted multiverse
+          deb http://security.ubuntu.com/ubuntu focal-security main universe restricted multiverse
+          deb http://archive.ubuntu.com/ubuntu focal-backports main universe restricted multiverse
           APT
           apt-get update
           apt-get install -y --no-install-recommends \
