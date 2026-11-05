@@ -87,7 +87,7 @@ El AppImage se construye en Ubuntu 20.04 x86_64 para mantener una base de glibc 
 ./build_appimage.sh
 ```
 
-El script usa PyInstaller 6.14.2 y AppImageKit `appimagetool` (canal continuous). GitHub Actions automatiza también la validación del código, una prueba de arranque de interfaz con pantalla virtual y la generación del ZIP. El contenedor de compilación utiliza repositorios históricos de Ubuntu 20.04 para conservar la base glibc 2.31; la guía PDF se genera y verifica en un paso independiente.
+El script usa PyInstaller 6.14.2 y AppImageKit `appimagetool` (canal continuous). GitHub Actions automatiza también la validación del código, una prueba de arranque de interfaz con pantalla virtual y la generación del ZIP. El contenedor de compilación usa los repositorios oficiales Focal de Ubuntu 20.04 para conservar la base glibc 2.31; la guía PDF se genera y verifica en un paso independiente.
 
 ## Seguridad y límites
 
