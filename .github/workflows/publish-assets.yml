@@ -1,0 +1,99 @@
+name: Build and publish Brother SinRoot assets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app.py.gz.b64"
+      - "docs/source/guia.html.gz.b64"
+      - ".github/workflows/publish-assets.yml"
+      - "README.md"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Restore source files
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -f app.py.gz.b64 ]]; then
+            base64 --decode app.py.gz.b64 | gzip -dc > app.py
+            rm app.py.gz.b64
+          fi
+          if [[ -f docs/source/guia.html.gz.b64 ]]; then
+            mkdir -p docs/source
+            base64 --decode docs/source/guia.html.gz.b64 | gzip -dc > docs/source/guia.html
+            rm docs/source/guia.html.gz.b64
+          fi
+
+      - name: Install PDF build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-inter python3-weasyprint zip
+
+      - name: Fetch and verify the exact Brother driver
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p drivers
+          curl --fail --location --retry 3 \
+            https://download.brother.com/welcome/dlf104033/brscan5-1.8.0-0.amd64.deb \
+            --output drivers/brscan5-1.8.0-0.amd64.deb
+          echo "27bf1d561da2223c9807726cc3ec1bd9e7cdce419a27ee79b31a642073174d46  drivers/brscan5-1.8.0-0.amd64.deb" | sha256sum --check
+          dpkg-deb -f drivers/brscan5-1.8.0-0.amd64.deb Package Version Architecture
+
+      - name: Generate and verify the PDF guide
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 - <<'PY'
+          from weasyprint import HTML
+          HTML(filename="docs/source/guia.html", base_url="docs/source").write_pdf(
+              "docs/Guia_Brother_MFC-J5740DW_SinRoot.pdf"
+          )
+          PY
+          pdfinfo docs/Guia_Brother_MFC-J5740DW_SinRoot.pdf | grep -E "Pages: *4|Page size:.*A4"
+          pdffonts docs/Guia_Brother_MFC-J5740DW_SinRoot.pdf | grep -q Inter
+
+      - name: Validate application and package
+        run: |
+          python3 -m py_compile app.py
+          bash -n instalar.sh iniciar.sh desinstalar.sh
+          test -s docs/Guia_Brother_MFC-J5740DW_SinRoot.pdf
+          test -s drivers/brscan5-1.8.0-0.amd64.deb
+
+      - name: Build portable ZIP artifact
+        run: |
+          mkdir -p dist
+          zip -qr dist/Brother_MFC-J5740DW_SinRoot_1.5.0.zip . \
+            -x ".git/*" "dist/*" "__pycache__/*" "*.pyc" \
+               "app.py.gz.b64" "docs/source/guia.html.gz.b64"
+
+      - name: Commit generated source assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app.py docs/source/guia.html docs/Guia_Brother_MFC-J5740DW_SinRoot.pdf drivers/brscan5-1.8.0-0.amd64.deb
+          git add -u app.py.gz.b64 docs/source/guia.html.gz.b64 2>/dev/null || true
+          if ! git diff --cached --quiet; then
+            git commit -m "build: publish Brother driver and PDF guide for v1.5.0"
+            git push
+          fi
+
+      - name: Upload complete application ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: Brother_MFC-J5740DW_SinRoot_1.5.0
+          path: dist/Brother_MFC-J5740DW_SinRoot_1.5.0.zip
+          if-no-files-found: error
+          retention-days: 30
