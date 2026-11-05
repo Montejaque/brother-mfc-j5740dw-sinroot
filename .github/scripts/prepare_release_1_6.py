@@ -53,16 +53,16 @@ new_shortcuts = '''def create_shortcuts(log=None):
     desktop_contents = {}
     for filename, name, comment, command in entries:
         contents = (
-            "[Desktop Entry]\n"
-            "Version=1.0\n"
-            "Type=Application\n"
-            f"Name={name}\n"
-            f"Comment={comment}\n"
-            f"Exec={command}\n"
-            f"Icon={icon_value}\n"
-            "Terminal=false\n"
-            "Categories=Graphics;Utility;\n"
-            "StartupNotify=true\n"
+            "[Desktop Entry]\\n"
+            "Version=1.0\\n"
+            "Type=Application\\n"
+            f"Name={name}\\n"
+            f"Comment={comment}\\n"
+            f"Exec={command}\\n"
+            f"Icon={icon_value}\\n"
+            "Terminal=false\\n"
+            "Categories=Graphics;Utility;\\n"
+            "StartupNotify=true\\n"
         )
         target = applications / filename
         target.write_text(contents, encoding="utf-8")
