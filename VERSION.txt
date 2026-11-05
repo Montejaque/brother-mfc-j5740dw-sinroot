@@ -1,9 +1,9 @@
-Brother MFC-J5740DW SinRoot Assistant
-Version: 1.3.0
-Date: 2026-11-04
-Target: Ubuntu/Debian x86_64
-Typography: Inter (PDF embedded; GUI detection with Tk fallback)
-Brand palette: Puntos Vuela yellow / green / coral / olive / blue
-Developer: Francisco Javier Gallego Orellana
-Center: Punto Vuela Montejaque
-Bundled driver: brscan5 1.8.0-0 amd64
+Brother MFC-J5740DW SinRoot
+Versión: 1.5.0
+Objetivo: Ubuntu/Debian x86_64
+Desarrollador: Francisco Javier Gallego Orellana
+Centro de referencia: Punto Vuela Montejaque
+Controlador incluido: brscan5 1.8.0-0 amd64
+SHA-256: 27bf1d561da2223c9807726cc3ec1bd9e7cdce419a27ee79b31a642073174d46
+Tipografía de interfaz: Inter si está instalada; fallback Tk del sistema.
+Tipografía de guía: Inter incrustada en PDF.
