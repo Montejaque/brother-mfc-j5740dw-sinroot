@@ -24,7 +24,7 @@ import tkinter.font as tkfont
 from tkinter import filedialog, messagebox, ttk
 
 APP_TITLE = "Brother MFC-J5740DW · Punto Vuela Montejaque"
-APP_VERSION = "1.5.0"
+APP_VERSION = "1.6.0"
 MODEL = "MFC-J5740DW"
 DEVICE_NAME = "Brother_MFC-J5740DW"
 DEVELOPER_NAME = "Francisco Javier Gallego Orellana"
@@ -73,7 +73,15 @@ DRIVER_ROOT = EXTRACT_DIR / "opt/brother/scanner/brscan5"
 USER_CFG = HOME / ".config/brother/brscan5/brsanenetdevice/brsanenetdevice.cfg"
 SANE_DIR = HOME / ".config/sane-brscan5"
 SANE_DLL = SANE_DIR / "dll.conf"
-APP_DIR = Path(__file__).resolve().parent
+# En PyInstaller, los recursos se ubican en sys._MEIPASS; en código, junto a app.py.
+APP_DIR = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))
+IS_FROZEN = bool(getattr(sys, "frozen", False))
+APPIMAGE_PATH = Path(os.environ.get("BROTHER_APPIMAGE") or os.environ.get("APPIMAGE") or sys.argv[0]).expanduser().resolve() if IS_FROZEN else None
+
+
+def get_icon_resource():
+    candidates = [APP_DIR / "assets" / "brother-mfc-j5740dw.png", APP_DIR / "brother-mfc-j5740dw.png"]
+    return next((p for p in candidates if p.is_file()), None)
 
 
 class SetupError(RuntimeError):
@@ -422,15 +430,31 @@ def register_scanner(ip: str, log):
 
 
 def create_shortcuts(log=None):
-    launcher = APP_DIR / "iniciar.sh"
-    if not launcher.exists():
-        raise SetupError("No se encuentra iniciar.sh junto a la aplicación.")
+    """Crea accesos del menú y escritorio tanto en modo fuente como AppImage."""
+    if IS_FROZEN:
+        launcher = APPIMAGE_PATH
+        if not launcher or not launcher.is_file():
+            raise SetupError("No se ha podido localizar el archivo AppImage original. Inicia la aplicación directamente desde el archivo .AppImage.")
+    else:
+        launcher = APP_DIR / "iniciar.sh"
+        if not launcher.exists():
+            raise SetupError("No se encuentra iniciar.sh junto a la aplicación.")
+
     applications = XDG_DATA_HOME / "applications"
     applications.mkdir(parents=True, exist_ok=True)
+    icon_value = "scanner"
+    icon_source = get_icon_resource()
+    if icon_source:
+        icon_target = XDG_DATA_HOME / "icons" / "hicolor" / "256x256" / "apps" / "brother-mfc-j5740dw.png"
+        icon_target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(icon_source, icon_target)
+        icon_value = str(icon_target)
+
     exec_path = str(launcher).replace("\\", "\\\\").replace('"', '\\"')
+    launcher_command = f'"{exec_path}"'
     entries = [
-        ("brother-mfc-j5740dw-assistant.desktop", "Asistente Brother MFC-J5740DW", "Gestionar instalación, diagnóstico y configuración Brother", f'"{exec_path}"'),
-        ("brother-mfc-j5740dw-scanner.desktop", "Escáner Brother MFC-J5740DW", "Escanear con el alimentador automático Brother", f'"{exec_path}" --scan'),
+        ("brother-mfc-j5740dw-assistant.desktop", "Asistente Brother MFC-J5740DW", "Gestionar instalación, diagnóstico y configuración Brother", launcher_command),
+        ("brother-mfc-j5740dw-scanner.desktop", "Escáner Brother MFC-J5740DW", "Escanear con el alimentador automático Brother", launcher_command + " --scan"),
     ]
     desktop_contents = {}
     for filename, name, comment, command in entries:
@@ -441,7 +465,7 @@ def create_shortcuts(log=None):
             f"Name={name}\n"
             f"Comment={comment}\n"
             f"Exec={command}\n"
-            "Icon=scanner\n"
+            f"Icon={icon_value}\n"
             "Terminal=false\n"
             "Categories=Graphics;Utility;\n"
             "StartupNotify=true\n"
@@ -450,6 +474,7 @@ def create_shortcuts(log=None):
         target.write_text(contents, encoding="utf-8")
         target.chmod(0o755)
         desktop_contents[filename] = contents
+
     desktop_dir = None
     try:
         r = run_capture(["xdg-user-dir", "DESKTOP"], timeout=5)
@@ -474,7 +499,8 @@ def create_shortcuts(log=None):
             if shutil.which("gio"):
                 run_capture(["gio", "set", str(copy), "metadata::trusted", "true"], timeout=5)
     if log:
-        log("Accesos del asistente y del escáner creados en el menú de aplicaciones" + (" y en el escritorio." if desktop_dir else "."))
+        log("Accesos del asistente y del escáner creados" + (" desde el AppImage" if IS_FROZEN else " desde el proyecto") + (" en el menú de aplicaciones y en el escritorio." if desktop_dir else " en el menú de aplicaciones."))
+
 
 def launch_simple_scan(log=None):
     if not DRIVER_ROOT.exists():
@@ -765,6 +791,7 @@ class App(tk.Tk):
         faq = [
             ("¿Necesito permisos de administrador?", "No para instalar y configurar brscan5 con este asistente. El equipo sí debe tener previamente Python/Tkinter, SANE, bubblewrap y Escáner de documentos. Si falta alguno, una persona administradora debe instalarlo una sola vez."),
             ("¿Dónde está el controlador?", f"Dentro del proyecto, en drivers/{BUNDLED_DRIVER_NAME}. La aplicación valida su SHA-256, versión y arquitectura antes de extraerlo en ~/.local/share/brother-mfc-j5740dw/driver-extracted/."),
+            ("¿Cómo ejecuto la versión AppImage?", "Descarga Brother_MFC-J5740DW_SinRoot_1.6.0-x86_64.AppImage, marca el archivo como ejecutable y ábrelo. No necesita instalar Python/Tkinter. Para escanear siguen siendo necesarios bubblewrap, SANE y simple-scan en el sistema."),
             ("¿Cómo selecciono el alimentador?", "Abre Escáner de documentos y elige Alimentador automático / ADF como origen. Para originales a doble cara, activa dúplex cuando esté disponible. Comprueba que la hoja entra por los rodillos superiores."),
             ("¿Qué se conserva al desinstalar?", "El desinstalador elimina la aplicación y sus accesos directos. Conserva el controlador extraído y la configuración personal para evitar pérdidas accidentales. Puedes revisarlos desde Gestión > Abrir ubicaciones."),
             ("¿Qué no modifica?", "No instala DEB en el sistema ni ejecuta postinst. No modifica CUPS, brscan4, /usr, /opt ni /etc reales. La simulación de rutas se limita al proceso ejecutado dentro de bubblewrap."),
@@ -1044,6 +1071,7 @@ class App(tk.Tk):
         for level, message in check_prerequisites():
             rows.append(("OK" if level == "ok" else "FALTA", "Requisitos", message, level))
         rows.append(("OK" if self.inter_available else "AVISO", "Tipografía", "Inter disponible" if self.inter_available else f"Se está usando {self.ui_font_family}", "ok" if self.inter_available else "warn"))
+        rows.append(("OK" if IS_FROZEN else "INFO", "Formato de aplicación", f"AppImage portable: {APPIMAGE_PATH}" if IS_FROZEN else "Ejecución desde carpeta de proyecto", "ok" if IS_FROZEN else "warn"))
         bundled = APP_DIR / "drivers" / BUNDLED_DRIVER_NAME
         if bundled.is_file():
             try:
@@ -1111,6 +1139,21 @@ class App(tk.Tk):
             messagebox.showerror("No se pudo copiar", str(exc))
 
     def uninstall_application(self):
+        if IS_FROZEN:
+            if not messagebox.askyesno("Quitar accesos directos", "Se eliminarán los accesos directos creados por el asistente. El archivo AppImage no se borrará; podrás eliminarlo manualmente cuando quieras. La configuración Brother/SANE y el controlador extraído se conservarán. ¿Continuar?"):
+                return
+            try:
+                applications = XDG_DATA_HOME / "applications"
+                for name in ("brother-mfc-j5740dw-assistant.desktop", "brother-mfc-j5740dw-scanner.desktop"):
+                    (applications / name).unlink(missing_ok=True)
+                for folder in (HOME / "Desktop", HOME / "Escritorio"):
+                    for name in ("Asistente-Brother-MFC-J5740DW.desktop", "Escaner-Brother-MFC-J5740DW.desktop"):
+                        (folder / name).unlink(missing_ok=True)
+                messagebox.showinfo("Accesos retirados", "Se han eliminado los accesos directos. Para desinstalar el formato AppImage, elimina el archivo .AppImage. Los datos del escáner no se han borrado.")
+                self.destroy()
+            except Exception as exc:
+                messagebox.showerror("No se pudieron retirar los accesos", str(exc))
+            return
         script = APP_DIR / "desinstalar.sh"
         if not script.is_file():
             messagebox.showerror("Desinstalador no encontrado", f"No se encuentra {script}")
