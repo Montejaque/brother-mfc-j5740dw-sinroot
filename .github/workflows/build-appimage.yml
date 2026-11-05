@@ -10,7 +10,7 @@ on:
 permissions:
   contents: read
 
-jobs:
+defaults:\n  run:\n    shell: bash\n\njobs:
   build:
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-22.04

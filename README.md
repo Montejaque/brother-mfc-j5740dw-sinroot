@@ -81,7 +81,7 @@ Sin root no se pueden instalar dependencias globales ausentes ni cambiar políti
 
 ## Construcción del AppImage
 
-El AppImage se construye en Ubuntu 20.04 x86_64 para mantener una base de glibc compatible con esa versión de Ubuntu y posteriores. En un equipo de desarrollo que tenga Python 3, pip, curl y las herramientas de empaquetado disponibles, ejecuta:
+El AppImage se construye en Ubuntu 20.04 x86_64 para mantener una base de glibc compatible con esa versión de Ubuntu y posteriores. Las tareas del contenedor usan Bash explícitamente y los repositorios oficiales Focal. En un equipo de desarrollo que tenga Python 3, pip, curl y las herramientas de empaquetado disponibles, ejecuta:
 
 ```bash
 ./build_appimage.sh
