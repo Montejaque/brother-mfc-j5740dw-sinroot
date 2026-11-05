@@ -1,16 +1,13 @@
-# Guía y fuentes
+# Guía de instalación y empaquetado
 
-La guía principal es [Guía Brother MFC-J5740DW SinRoot (PDF)](Guia_Brother_MFC-J5740DW_SinRoot.pdf).
+## Usuario final
 
-Su fuente HTML editable está en `source/guia.html`. El PDF tiene cuatro páginas A4, incorpora la tipografía Inter y recoge los datos del desarrollador y del Punto Vuela Montejaque, la paleta de colores de referencia, los pasos de instalación, el uso ADF, la gestión visual y la resolución de problemas.
+**AppImage:** marca el archivo como ejecutable (o `chmod +x`) y ejecútalo con doble clic o desde terminal. El AppImage incluye Python y Tkinter. Para que el escáner funcione, `bwrap`, SANE y `simple-scan` deben existir en el sistema.
 
-Para regenerar el PDF en un equipo de desarrollo con WeasyPrint y la familia Inter disponibles:
+**ZIP de código fuente:** extrae toda la carpeta y ejecuta `./instalar.sh` como usuario normal. Python 3 y Tkinter deben estar disponibles.
 
-```bash
-python3 - <<'PY'
-from weasyprint import HTML
-HTML(filename='docs/source/guia.html', base_url='docs/source').write_pdf(
-    'docs/Guia_Brother_MFC-J5740DW_SinRoot.pdf'
-)
-PY
-```
+## Construcción
+
+`./build_appimage.sh` genera `dist/Brother_MFC-J5740DW_SinRoot_1.6.0-x86_64.AppImage`. Usa PyInstaller 6.14.2 y `appimagetool` continuo; se recomienda construir desde Ubuntu 20.04 x86_64 para mantener compatibilidad de glibc.
+
+GitHub Actions (`.github/workflows/build-appimage.yml`) compila dentro de un contenedor Ubuntu 20.04, ejecuta validaciones y publica el AppImage y un ZIP completo como artefacto de Actions.

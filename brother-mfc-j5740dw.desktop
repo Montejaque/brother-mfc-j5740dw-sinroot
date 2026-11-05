@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Brother MFC-J5740DW SinRoot
+GenericName=Asistente de escáner Brother
+Comment=Instalación por usuario, gestión visual y diagnóstico del escáner Brother
+Exec=AppRun
+Icon=brother-mfc-j5740dw
+Terminal=false
+Categories=Graphics;Utility;Scanning;
+StartupNotify=true
+X-AppImage-Version=1.6.0

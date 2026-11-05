@@ -1,13 +1,20 @@
 # Historial de cambios
 
+## 1.6.0
+- Añadida distribución AppImage x86_64 con Python/Tkinter empaquetados para ejecución directa.
+- Adaptada la interfaz de gestión para ejecución AppImage, creación de accesos del menú/escritorio y retirada de accesos sin borrar el AppImage ni los datos del escáner.
+- Añadidos icono de aplicación, metadatos AppStream y lanzador AppRun.
+- Añadido `build_appimage.sh` y GitHub Actions para generar AppImage y ZIP desde una base Ubuntu 20.04.
+- Actualizados README, guía HTML y PDF; documentación diferenciada para AppImage y código portable.
+- Conservada la búsqueda y validación SHA-256 del DEB Brother original.
+
 ## 1.5.0
-- Interfaz unificada con Inicio, Gestión, Diagnóstico y actividad, y Ayuda.
-- Detección eSCL en la red, comprobación de conexión y dirección IP manual.
-- Uso preferente del controlador brscan5 original incluido en drivers/, con verificación SHA-256.
-- Instalación por usuario, extracción aislada, registro Brother y apertura de Escáner de documentos mediante bubblewrap.
-- Gestión de reparación, accesos directos, carpetas, copias/restauración, informes y desinstalación.
-- Instalador actualizado: copia los componentes necesarios y crea el acceso al asistente.
-- Guía PDF de cuatro páginas con Inter incrustada, datos del centro y paleta Puntos Vuela.
+- Aplicación unificada con pestañas Inicio, Gestión, Diagnóstico y actividad, y Ayuda.
+- Incluye búsqueda Wi-Fi eSCL, comprobación del dispositivo, instalación por usuario del controlador Brother brscan5 y registro aislado con bubblewrap.
+- Incluye apertura de Escáner de documentos, accesos directos, reparación del registro, ubicaciones, copias/restauración de configuración e informes de diagnóstico.
+- Instalador actualizado para copiar también el desinstalador, el DEB original y la guía PDF, y crear el acceso al asistente.
+- Guía PDF nueva, con Inter incrustada, datos del desarrollador y Punto Vuela Montejaque y paleta corporativa.
 
 ## 1.4.0
 - Interfaz de gestión con pestañas y herramientas de diagnóstico y mantenimiento.
+- Detección del DEB incluido y comprobación SHA-256.

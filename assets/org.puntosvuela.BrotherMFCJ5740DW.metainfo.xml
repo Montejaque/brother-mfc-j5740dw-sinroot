@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.puntosvuela.BrotherMFCJ5740DW</id>
+  <name>Brother MFC-J5740DW SinRoot</name>
+  <summary>Asistente gráfico de escáner Brother para Linux</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary-driver-and-project</project_license>
+  <description><p>Gestiona el controlador Brother brscan5, la conexión por red, el registro del escáner y los diagnósticos desde una interfaz gráfica de usuario.</p></description>
+  <launchable type="desktop-id">brother-mfc-j5740dw.desktop</launchable>
+  <developer_name>Francisco Javier Gallego Orellana · Punto Vuela Montejaque</developer_name>
+  <url type="homepage">https://puntosvuela.es/centros/montejaque</url>
+</component>

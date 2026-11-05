@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+HERE="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+if [ -n "${APPIMAGE:-}" ]; then
+  export BROTHER_APPIMAGE="$APPIMAGE"
+fi
+exec "$HERE/usr/lib/brother-mfc-j5740dw/brother-mfc-j5740dw" "$@"

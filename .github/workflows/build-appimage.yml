@@ -1,0 +1,87 @@
+name: Build AppImage and ZIP
+
+on:
+  workflow_run:
+    workflows: ["Build and publish Brother SinRoot assets"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-22.04
+    container:
+      image: ubuntu:20.04
+    steps:
+      - name: Prepare Ubuntu 20.04 build environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          export DEBIAN_FRONTEND=noninteractive
+          # Mantener glibc 2.31 como base compatible con Ubuntu 20.04 de destino.
+          sed -i -E 's|https?://(archive|security).ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' /etc/apt/sources.list
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            ca-certificates curl wget file binutils gcc make \
+            python3 python3-dev python3-pip python3-tk \
+            tk8.6-dev zlib1g-dev libffi-dev libssl-dev \
+            squashfs-tools desktop-file-utils zip unzip xvfb \
+            libx11-6 libxext6 libxrender1 libxft2 libfontconfig1 libfuse2
+          python3 -m pip install --upgrade 'pip<25.1'
+      - uses: actions/checkout@v4
+      - name: Validate source and DEB integrity
+        run: |
+          set -euo pipefail
+          python3 -m py_compile app.py
+          bash -n instalar.sh iniciar.sh desinstalar.sh AppRun build_appimage.sh
+          echo "27bf1d561da2223c9807726cc3ec1bd9e7cdce419a27ee79b31a642073174d46  drivers/brscan5-1.8.0-0.amd64.deb" | sha256sum --check
+      - name: Build portable AppImage
+        run: ./build_appimage.sh
+      - name: Test final AppImage with virtual display
+        shell: bash
+        run: |
+          set +e
+          APPIMAGE_EXTRACT_AND_RUN=1 timeout 8s xvfb-run -a dist/Brother_MFC-J5740DW_SinRoot_1.6.0-x86_64.AppImage
+          code=$?
+          set -e
+          if [ "$code" -ne 124 ]; then
+            echo "El AppImage terminó antes del tiempo de prueba (código $code)."
+            exit 1
+          fi
+      - name: Test packaged executable with virtual display
+        shell: bash
+        run: |
+          set +e
+          timeout 8s xvfb-run -a build/pyinstaller-dist/brother-mfc-j5740dw/brother-mfc-j5740dw
+          code=$?
+          set -e
+          if [ "$code" -ne 124 ]; then
+            echo "La interfaz terminó antes del tiempo de prueba (código $code)."
+            exit 1
+          fi
+      - name: Create full project ZIP with AppImage
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="$(awk -F': ' '/^Versión:/ {print $2; exit}' VERSION.txt)"
+          STAGE="dist/Brother_MFC-J5740DW_SinRoot_${VERSION}"
+          mkdir -p "$STAGE"
+          for item in app.py instalar.sh iniciar.sh desinstalar.sh README.md VERSION.txt CHANGELOG.md drivers docs assets AppRun brother-mfc-j5740dw.desktop build_appimage.sh; do
+            [ ! -e "$item" ] || cp -a "$item" "$STAGE/"
+          done
+          cp "dist/Brother_MFC-J5740DW_SinRoot_${VERSION}-x86_64.AppImage" "$STAGE/"
+          (cd dist && zip -qr "Brother_MFC-J5740DW_SinRoot_${VERSION}.zip" "Brother_MFC-J5740DW_SinRoot_${VERSION}")
+          sha256sum dist/*.AppImage dist/*.zip
+      - name: Upload AppImage and ZIP artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Brother_MFC-J5740DW_SinRoot-1.6.0-linux-x86_64
+          path: |
+            dist/*.AppImage
+            dist/*.zip
+          if-no-files-found: error
+          retention-days: 30
