@@ -207,6 +207,7 @@ for old, new in [('#4F5D54','#555555'),('#3E6947','#111111'),('#EDF1EB','#F4F4F4
                  ('#BBD4BE','#F3D54E'),('#D8E3D8','#EEEEEE'),('#26332C','#111111'),('#DDE8DD','#EEEEEE')]:
     html = html.replace(old,new)
 html = html.replace('border:3mm solid var(--black)', 'border:3mm solid var(--yellow)')
+html = html.replace('background:linear-gradient(90deg,var(--yellow) 0 35%,var(--black) 35% 55%,var(--coral) 55% 70%,var(--olive) 70% 85%,var(--blue) 85% 100%);', 'background:var(--yellow); border-right:35mm solid var(--black);')
 html = html.replace('color:var(--olive);', 'color:var(--black);').replace('color:var(--coral);', 'color:var(--black);')
 html = html.replace('background:linear-gradient(90deg,var(--yellow) 0 35%,var(--green) 35% 55%,var(--coral) 55% 70%,var(--olive) 70% 85%,var(--blue) 85% 100%);',
                     'background:var(--yellow); border-right:35mm solid var(--black);')
