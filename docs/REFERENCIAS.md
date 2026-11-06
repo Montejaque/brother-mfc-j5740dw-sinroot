@@ -12,3 +12,6 @@ El AppImage se construye en Ubuntu 20.04 x86_64 para mantener una base de biblio
 
 
 Identidad visual actual: https://puntosvuela.es/ (amarillo corporativo y negro).
+
+
+Identidad visual actual: https://puntosvuela.es/ (amarillo corporativo y negro).
