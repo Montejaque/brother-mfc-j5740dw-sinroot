@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/publish-assets.yml"
+      - ".github/workflows/build-appimage.yml"
       - ".github/scripts/**"
       - "README.md"
   workflow_dispatch:

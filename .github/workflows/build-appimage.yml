@@ -85,12 +85,72 @@ jobs:
           cp "dist/Brother_MFC-J5740DW_SinRoot_${VERSION}-x86_64.AppImage" "$STAGE/"
           (cd dist && zip -qr "Brother_MFC-J5740DW_SinRoot_${VERSION}.zip" "Brother_MFC-J5740DW_SinRoot_${VERSION}")
           sha256sum dist/*.AppImage dist/*.zip
-      - name: Upload AppImage and ZIP artifacts
+      - name: Upload AppImage, ZIP and PDF artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Brother_MFC-J5740DW_SinRoot-1.6.1-linux-x86_64
           path: |
             dist/*.AppImage
             dist/*.zip
+            docs/Guia_Brother_MFC-J5740DW_SinRoot.pdf
           if-no-files-found: error
           retention-days: 30
+
+  publish-release:
+    name: Publish GitHub Release
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: Brother_MFC-J5740DW_SinRoot-1.6.1-linux-x86_64
+          path: release-assets
+
+      - name: Prepare release files and checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/release-assets-flat
+          find release-assets -type f \\( -name '*.AppImage' -o -name '*.zip' -o -name '*.pdf' \\) -exec cp -t /tmp/release-assets-flat -- {} +
+          test -s /tmp/release-assets-flat/Brother_MFC-J5740DW_SinRoot_1.6.1-x86_64.AppImage
+          test -s /tmp/release-assets-flat/Brother_MFC-J5740DW_SinRoot_1.6.1.zip
+          test -s /tmp/release-assets-flat/Guia_Brother_MFC-J5740DW_SinRoot.pdf
+          rm -rf release-assets
+          mv /tmp/release-assets-flat release-assets
+          cd release-assets
+          sha256sum \
+            Brother_MFC-J5740DW_SinRoot_1.6.1-x86_64.AppImage \
+            Brother_MFC-J5740DW_SinRoot_1.6.1.zip \
+            Guia_Brother_MFC-J5740DW_SinRoot.pdf > SHA256SUMS
+
+      - name: Publish version 1.6.1
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.6.1
+          name: Brother MFC-J5740DW SinRoot 1.6.1
+          body: |
+            ## Brother MFC-J5740DW SinRoot 1.6.1
+
+            Versión para Ubuntu/Debian x86_64, con interfaz gráfica y configuración del escáner Brother MFC-J5740DW sin privilegios de administrador.
+
+            ### Archivos
+            - **AppImage:** ejecutable de la aplicación para Linux x86_64.
+            - **ZIP:** proyecto portable completo, con código, documentación y recursos.
+            - **Guía PDF:** manual de instalación y uso, cinco páginas A4 con tipografía Inter.
+            - **SHA256SUMS:** comprobación de integridad de las descargas.
+
+            ### Identidad visual
+            Amarillo corporativo #F3D54E y negro #000000.
+
+            ### Requisitos importantes
+            El AppImage incluye Python y Tkinter. El sistema debe disponer de bubblewrap (bwrap), SANE y simple-scan para las funciones de escaneo.
+          files: |
+            release-assets/*
+          fail_on_unmatched_files: true
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
