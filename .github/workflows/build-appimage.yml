@@ -114,7 +114,9 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p /tmp/release-assets-flat
-          find release-assets -type f \\( -name '*.AppImage' -o -name '*.zip' -o -name '*.pdf' \\) -exec cp -t /tmp/release-assets-flat -- {} +
+          find release-assets -type f -name '*.AppImage' -exec cp -t /tmp/release-assets-flat -- {} +
+          find release-assets -type f -name '*.zip' -exec cp -t /tmp/release-assets-flat -- {} +
+          find release-assets -type f -name '*.pdf' -exec cp -t /tmp/release-assets-flat -- {} +
           test -s /tmp/release-assets-flat/Brother_MFC-J5740DW_SinRoot_1.6.1-x86_64.AppImage
           test -s /tmp/release-assets-flat/Brother_MFC-J5740DW_SinRoot_1.6.1.zip
           test -s /tmp/release-assets-flat/Guia_Brother_MFC-J5740DW_SinRoot.pdf
