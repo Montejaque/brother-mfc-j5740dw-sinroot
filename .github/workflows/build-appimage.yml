@@ -54,7 +54,7 @@ jobs:
         shell: bash
         run: |
           set +e
-          APPIMAGE_EXTRACT_AND_RUN=1 timeout 8s xvfb-run -a dist/Brother_MFC-J5740DW_SinRoot_1.6.0-x86_64.AppImage
+          APPIMAGE_EXTRACT_AND_RUN=1 timeout 8s xvfb-run -a dist/Brother_MFC-J5740DW_SinRoot_1.6.1-x86_64.AppImage
           code=$?
           set -e
           if [ "$code" -ne 124 ]; then
@@ -88,7 +88,7 @@ jobs:
       - name: Upload AppImage and ZIP artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Brother_MFC-J5740DW_SinRoot-1.6.0-linux-x86_64
+          name: Brother_MFC-J5740DW_SinRoot-1.6.1-linux-x86_64
           path: |
             dist/*.AppImage
             dist/*.zip

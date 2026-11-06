@@ -175,4 +175,79 @@ if "04 · Distribución AppImage y ZIP" not in html:
 '''
     html = html.replace("</body>", page5 + "\n</body>", 1)
 html_path.write_text(html, encoding="utf-8")
-print("Preparación 1.6.0 terminada")
+
+# Release 1.6.1: current Puntos Vuela identity (corporate yellow + black).
+app = app_path.read_text(encoding="utf-8")
+app = app.replace('APP_VERSION = "1.6.0"', 'APP_VERSION = "1.6.1"', 1)
+app = app.replace('# Paleta de identidad visual Puntos Vuela (amarillo principal y colores de apoyo).',
+                  '# Identidad visual actual Puntos Vuela: amarillo corporativo y negro.')
+app = app.replace('    "green": "#7BA880",\n', '    "black": "#000000",\n')
+app = app.replace('    "green_soft": "#EDF4EE",\n', '')
+app = app.replace('    "olive": "#AE9E3A",\n', '    "olive": "#C8A82E",\n')
+app = app.replace('    "ink": "#26332C",\n', '    "ink": "#111111",\n')
+app = app.replace('    "muted": "#66736B",\n', '    "muted": "#666666",\n')
+app = app.replace('    "line": "#E8E4D8",\n', '    "line": "#E5E1D6",\n')
+app = app.replace('    "log_bg": "#27332D",\n', '    "log_bg": "#111111",\n')
+app = app.replace('BRAND["green"]', 'BRAND["black"]')
+app = app.replace('BRAND["green_soft"]', 'BRAND["yellow_soft"]')
+app = app.replace('1.6.0', '1.6.1')
+app_path.write_text(app, encoding="utf-8")
+
+html = html_path.read_text(encoding="utf-8")
+html = html.replace("1.6.0", "1.6.1")
+html = html.replace('--yellow:#F3D54E; --green:#7BA880; --coral:#E56359; --olive:#AE9E3A;',
+                    '--yellow:#F3D54E; --black:#000000; --coral:#E56359; --olive:#C8A82E;')
+html = html.replace('--blue:#87ACD4; --ink:#26332C; --muted:#68756D; --paper:#FBFAF6;',
+                    '--blue:#87ACD4; --ink:#111111; --muted:#666666; --paper:#FBFAF6;')
+html = html.replace('--line:#E6E1D5; --soft-yellow:#FFF7D8; --soft-green:#EDF4EE;',
+                    '--line:#E5E1D6; --soft-yellow:#FFF8D9;')
+html = html.replace('var(--green)', 'var(--black)').replace('var(--soft-green)', 'var(--soft-yellow)')
+html = html.replace('.callout.green', '.callout.brand').replace('callout green', 'callout brand')
+for old, new in [('#4F5D54','#555555'),('#3E6947','#111111'),('#EDF1EB','#F4F4F4'),
+                 ('#BBD4BE','#F3D54E'),('#D8E3D8','#EEEEEE'),('#26332C','#111111'),('#DDE8DD','#EEEEEE')]:
+    html = html.replace(old,new)
+html = html.replace('border:3mm solid var(--black)', 'border:3mm solid var(--yellow)')
+html = html.replace('color:var(--olive);', 'color:var(--black);').replace('color:var(--coral);', 'color:var(--black);')
+html = html.replace('background:linear-gradient(90deg,var(--yellow) 0 35%,var(--green) 35% 55%,var(--coral) 55% 70%,var(--olive) 70% 85%,var(--blue) 85% 100%);',
+                    'background:var(--yellow); border-right:35mm solid var(--black);')
+html = html.replace('font-weight:750','font-weight:700').replace('font-weight:780','font-weight:800').replace('font-weight:730','font-weight:700').replace('font-weight:720','font-weight:700')
+html = html.replace('La versión 1.6.0 incorpora','La versión 1.6.1 incorpora')
+html = html.replace('1 / 4</div>', '1 / 5</div>').replace('2 / 4</div>', '2 / 5</div>').replace('3 / 4</div>', '3 / 5</div>')
+marker = '<p class="lead">Guía de instalación, configuración y gestión del escáner por Wi-Fi en Ubuntu y Debian, sin privilegios de administrador.</p>'
+if "Identidad visual actual Puntos Vuela" not in html:
+    html = html.replace(marker, marker + '\n  <p class="small"><strong>Identidad visual actual Puntos Vuela:</strong> amarillo corporativo y negro.</p>')
+html_path.write_text(html, encoding="utf-8")
+
+readme_path = ROOT / "README.md"
+readme = readme_path.read_text(encoding="utf-8").replace("1.6.0", "1.6.1")
+if "## Identidad visual" not in readme:
+    readme = readme.replace("## Descargas y formatos",
+        "## Identidad visual\n\nLa interfaz, el icono y la documentación siguen la identidad visual actual de Puntos Vuela: amarillo corporativo #F3D54E y negro #000000. Se han retirado los tonos y fondos verdes heredados.\n\n## Descargas y formatos", 1)
+readme_path.write_text(readme, encoding="utf-8")
+
+version_path = ROOT / "VERSION.txt"
+version = version_path.read_text(encoding="utf-8").replace("1.6.0", "1.6.1")
+if "Identidad visual:" not in version:
+    version += "Identidad visual: amarillo corporativo #F3D54E y negro #000000; sin tonos verdes.\n"
+version_path.write_text(version, encoding="utf-8")
+
+change_path = ROOT / "CHANGELOG.md"
+change = change_path.read_text(encoding="utf-8")
+if "## 1.6.1" not in change:
+    change = change.replace("# Historial de cambios\n",
+        "# Historial de cambios\n\n## 1.6.1\n- Actualizada la identidad visual de la interfaz y documentación al amarillo #F3D54E y negro #000000 de Puntos Vuela.\n- Eliminados los acentos y fondos verdes; los fondos suaves pasan a amarillo claro y neutros.\n- Actualizados el icono de aplicación, manual PDF, AppImage y ZIP.\n\n", 1)
+change_path.write_text(change, encoding="utf-8")
+
+for rel in ("docs/README_INSTALACION.md", "docs/REFERENCIAS.md", "brother-mfc-j5740dw.desktop"):
+    p = ROOT / rel
+    if not p.exists():
+        continue
+    content = p.read_text(encoding="utf-8").replace("1.6.0", "1.6.1")
+    if rel == "docs/REFERENCIAS.md" and "identidad visual actual" not in content:
+        content += "\n\nIdentidad visual actual: https://puntosvuela.es/ (amarillo corporativo y negro).\n"
+    p.write_text(content, encoding="utf-8")
+
+import base64
+(ROOT / "assets/brother-mfc-j5740dw.png").write_bytes(base64.b64decode("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"))
+
+print("Preparación 1.6.1 terminada")
