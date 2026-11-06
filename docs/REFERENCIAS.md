@@ -9,3 +9,6 @@
 El archivo DEB adjunto por el responsable del proyecto se conserva sin modificar. SHA-256: `27bf1d561da2223c9807726cc3ec1bd9e7cdce419a27ee79b31a642073174d46`.
 
 El AppImage se construye en Ubuntu 20.04 x86_64 para mantener una base de bibliotecas del sistema compatible con Ubuntu 20.04. Se empaquetan Python y Tkinter, pero no los servicios nativos `bubblewrap`, SANE ni `simple-scan`.
+
+
+Identidad visual actual: https://puntosvuela.es/ (amarillo corporativo y negro).

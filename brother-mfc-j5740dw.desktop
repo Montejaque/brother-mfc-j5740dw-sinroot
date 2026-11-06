@@ -9,4 +9,4 @@ Icon=brother-mfc-j5740dw
 Terminal=false
 Categories=Graphics;Utility;Scanning;
 StartupNotify=true
-X-AppImage-Version=1.6.0
+X-AppImage-Version=1.6.1

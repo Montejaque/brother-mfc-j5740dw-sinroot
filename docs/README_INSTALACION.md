@@ -8,6 +8,6 @@
 
 ## Construcción
 
-`./build_appimage.sh` genera `dist/Brother_MFC-J5740DW_SinRoot_1.6.0-x86_64.AppImage`. Usa PyInstaller 6.14.2 y `appimagetool` continuo; se recomienda construir desde Ubuntu 20.04 x86_64 para mantener compatibilidad de glibc.
+`./build_appimage.sh` genera `dist/Brother_MFC-J5740DW_SinRoot_1.6.1-x86_64.AppImage`. Usa PyInstaller 6.14.2 y `appimagetool` continuo; se recomienda construir desde Ubuntu 20.04 x86_64 para mantener compatibilidad de glibc.
 
 GitHub Actions (`.github/workflows/build-appimage.yml`) compila dentro de un contenedor Ubuntu 20.04, ejecuta validaciones y publica el AppImage y un ZIP completo como artefacto de Actions.

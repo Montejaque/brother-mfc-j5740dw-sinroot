@@ -10,9 +10,9 @@
 <style>
 @page { size: A4; margin: 0; }
 :root {
-  --yellow:#F3D54E; --green:#7BA880; --coral:#E56359; --olive:#AE9E3A;
-  --blue:#87ACD4; --ink:#26332C; --muted:#68756D; --paper:#FBFAF6;
-  --line:#E6E1D5; --soft-yellow:#FFF7D8; --soft-green:#EDF4EE;
+  --yellow:#F3D54E; --black:#000000; --coral:#E56359; --olive:#C8A82E;
+  --blue:#87ACD4; --ink:#111111; --muted:#666666; --paper:#FBFAF6;
+  --line:#E5E1D6; --soft-yellow:#FFF8D9;
   --soft-blue:#EDF3F9; --soft-coral:#FFF0ED; --white:#FFFFFF;
 }
 * { box-sizing:border-box; }
@@ -20,50 +20,50 @@ html,body { margin:0; padding:0; color:var(--ink); font-family:Inter,"Inter Disp
 .page { width:210mm; height:297mm; padding:15mm 16mm 16mm; position:relative; overflow:hidden; background:var(--paper); page-break-after:always; }
 .page:last-child { page-break-after:auto; }
 .topline { height:3mm; background:var(--yellow); margin:-15mm -16mm 10mm; }
-.eyebrow { font-size:8pt; font-weight:750; letter-spacing:1.25px; color:var(--green); text-transform:uppercase; }
-h1 { font-size:28pt; line-height:1.08; letter-spacing:-1px; margin:5mm 0 3mm; font-weight:780; }
+.eyebrow { font-size:8pt; font-weight:700; letter-spacing:1.25px; color:var(--black); text-transform:uppercase; }
+h1 { font-size:28pt; line-height:1.08; letter-spacing:-1px; margin:5mm 0 3mm; font-weight:800; }
 h2 { font-size:17pt; line-height:1.15; margin:0 0 5mm; letter-spacing:-.35px; }
-h3 { font-size:11pt; margin:0 0 2mm; font-weight:730; }
+h3 { font-size:11pt; margin:0 0 2mm; font-weight:700; }
 p { margin:0 0 3mm; }
 .small { font-size:8pt; color:var(--muted); }
-.lead { font-size:12pt; color:#4F5D54; line-height:1.45; max-width:160mm; }
-.pill { display:inline-block; padding:1.5mm 3.2mm; border-radius:30px; background:var(--soft-green); color:#3E6947; font-weight:700; font-size:8pt; }
+.lead { font-size:12pt; color:#555555; line-height:1.45; max-width:160mm; }
+.pill { display:inline-block; padding:1.5mm 3.2mm; border-radius:30px; background:var(--soft-yellow); color:#111111; font-weight:700; font-size:8pt; }
 .hero { background:var(--ink); color:var(--white); border-radius:5mm; padding:9mm; margin:8mm 0 6mm; position:relative; }
 .hero h2 { color:var(--yellow); margin-bottom:2mm; font-size:20pt; }
-.hero p { color:#EDF1EB; max-width:132mm; font-size:10pt; margin-bottom:0; }
-.hero-mark { position:absolute; right:8mm; top:8mm; width:22mm; height:22mm; border:3mm solid var(--green); border-radius:50%; opacity:.9; }
+.hero p { color:#F4F4F4; max-width:132mm; font-size:10pt; margin-bottom:0; }
+.hero-mark { position:absolute; right:8mm; top:8mm; width:22mm; height:22mm; border:3mm solid var(--yellow); border-radius:50%; opacity:.9; }
 .meta-grid { display:table; width:100%; border-spacing:2mm 0; margin:5mm -2mm 6mm; }
 .meta { display:table-cell; width:33.33%; background:var(--white); border:1px solid var(--line); border-radius:3mm; padding:3.5mm; vertical-align:top; }
 .meta strong { display:block; font-size:8pt; color:var(--muted); margin-bottom:1mm; text-transform:uppercase; letter-spacing:.5px; }
-.meta span { font-size:10pt; font-weight:720; }
+.meta span { font-size:10pt; font-weight:700; }
 .card-grid { display:table; width:100%; border-spacing:2mm 0; margin:3mm -2mm; }
 .card { display:table-cell; width:33.33%; vertical-align:top; padding:4mm; border:1px solid var(--line); background:var(--white); border-radius:3mm; }
-.card .number { font-size:19pt; font-weight:800; margin-bottom:1mm; color:var(--green); }
-.card:nth-child(2) .number { color:var(--olive); }
-.card:nth-child(3) .number { color:var(--coral); }
+.card .number { font-size:19pt; font-weight:800; margin-bottom:1mm; color:var(--black); }
+.card:nth-child(2) .number { color:var(--black); }
+.card:nth-child(3) .number { color:var(--black); }
 .card p { font-size:8.4pt; color:var(--muted); margin:0; }
 .callout { border-left:3px solid var(--yellow); background:var(--soft-yellow); padding:3.5mm 4mm; border-radius:0 2.5mm 2.5mm 0; margin:4mm 0; }
-.callout.green { border-color:var(--green); background:var(--soft-green); }
+.callout.brand { border-color:var(--black); background:var(--soft-yellow); }
 .callout.blue { border-color:var(--blue); background:var(--soft-blue); }
-.callout.coral { border-color:var(--coral); background:var(--soft-coral); }
+.callout.coral { border-color:var(--black); background:var(--soft-coral); }
 .step { display:table; width:100%; margin:0 0 4mm; }
 .step-no { display:table-cell; width:11mm; vertical-align:top; }
 .step-no span { display:inline-block; width:8mm; height:8mm; line-height:8mm; text-align:center; border-radius:50%; background:var(--yellow); font-weight:800; }
 .step-body { display:table-cell; vertical-align:top; }
 .step-body p { margin:0; color:var(--muted); }
-.code { background:#26332C; color:#F7F8F4; border-radius:2mm; padding:3.5mm 4mm; font-family:DejaVu Sans Mono,monospace; font-size:8pt; margin:3mm 0 4mm; }
-.code .faint { color:#D8E3D8; }
+.code { background:#111111; color:#F7F8F4; border-radius:2mm; padding:3.5mm 4mm; font-family:DejaVu Sans Mono,monospace; font-size:8pt; margin:3mm 0 4mm; }
+.code .faint { color:#EEEEEE; }
 .two-col { display:table; width:100%; border-spacing:3mm 0; margin:2mm -3mm; }
 .col { display:table-cell; width:50%; vertical-align:top; }
 .bullet { margin:0 0 2.2mm; padding-left:4mm; position:relative; }
-.bullet:before { content:""; position:absolute; left:0; top:1.7mm; width:1.7mm; height:1.7mm; background:var(--green); border-radius:50%; }
+.bullet:before { content:""; position:absolute; left:0; top:1.7mm; width:1.7mm; height:1.7mm; background:var(--black); border-radius:50%; }
 .ui-list { width:100%; border-collapse:collapse; margin:3mm 0; }
 .ui-list td { vertical-align:top; padding:2.5mm 2mm; border-bottom:1px solid var(--line); }
-.ui-list td:first-child { width:38mm; font-weight:720; color:var(--green); }
+.ui-list td:first-child { width:38mm; font-weight:700; color:var(--black); }
 .footer { position:absolute; left:16mm; right:16mm; bottom:8mm; border-top:1px solid var(--line); padding-top:2.5mm; display:table; width:178mm; color:var(--muted); font-size:7.2pt; }
 .footer .left,.footer .right { display:table-cell; }
 .footer .right { text-align:right; }
-.brand-strip { height:2mm; margin-top:3mm; background:linear-gradient(90deg,var(--yellow) 0 35%,var(--green) 35% 55%,var(--coral) 55% 70%,var(--olive) 70% 85%,var(--blue) 85% 100%); border-radius:2mm; }
+.brand-strip { height:2mm; margin-top:3mm; background:var(--yellow); border-right:35mm solid var(--black); border-radius:2mm; }
 .contact { background:var(--ink); color:#F8F9F4; padding:5mm; border-radius:3mm; margin-top:4mm; }
 .contact h3 { color:var(--yellow); }
 .contact .contact-line { margin-top:1.5mm; font-size:9pt; }
@@ -75,12 +75,13 @@ p { margin:0 0 3mm; }
 <body>
 <section class="page">
   <div class="topline"></div>
-  <div class="eyebrow">Punto Vuela Montejaque · Asistente Linux SinRoot · Versión 1.6.0</div>
+  <div class="eyebrow">Punto Vuela Montejaque · Asistente Linux SinRoot · Versión 1.6.1</div>
   <h1>Brother<br>MFC-J5740DW</h1>
   <p class="lead">Guía de instalación, configuración y gestión del escáner por Wi-Fi en Ubuntu y Debian, sin privilegios de administrador.</p>
+  <p class="small"><strong>Identidad visual actual Puntos Vuela:</strong> amarillo corporativo y negro.</p>
   <div class="hero">
     <div class="hero-mark"></div>
-    <div class="eyebrow" style="color:#BBD4BE">Controlador oficial Brother incluido</div>
+    <div class="eyebrow" style="color:#F3D54E">Controlador oficial Brother incluido</div>
     <h2>brscan5 · 1.8.0-0 · amd64</h2>
     <p>El paquete DEB original proporcionado para este proyecto acompaña a la aplicación. El asistente lo localiza automáticamente en <strong>drivers/</strong>, comprueba su integridad y lo prepara en el perfil de usuario.</p>
   </div>
@@ -95,8 +96,8 @@ p { margin:0 0 3mm; }
     <div class="card"><div class="number">02</div><h3>Configurar</h3><p>Valida el DEB incluido, prepara Brother 5 y registra el escáner.</p></div>
     <div class="card"><div class="number">03</div><h3>Escanear</h3><p>Abre Escáner de documentos y selecciona el alimentador ADF.</p></div>
   </div>
-  <div class="callout green"><strong>Instalación por usuario.</strong> No se ejecuta <span class="tag">sudo</span>, <span class="tag">dpkg -i</span> ni el script postinst de Brother. El controlador se extrae en el perfil personal y se ejecuta dentro de un espacio aislado con bubblewrap.</div>
-  <div class="footer"><div class="left">Brother MFC-J5740DW SinRoot · Punto Vuela Montejaque</div><div class="right">Guía de instalación y uso · 1 / 4</div></div>
+  <div class="callout brand"><strong>Instalación por usuario.</strong> No se ejecuta <span class="tag">sudo</span>, <span class="tag">dpkg -i</span> ni el script postinst de Brother. El controlador se extrae en el perfil personal y se ejecuta dentro de un espacio aislado con bubblewrap.</div>
+  <div class="footer"><div class="left">Brother MFC-J5740DW SinRoot · Punto Vuela Montejaque</div><div class="right">Guía de instalación y uso · 1 / 5</div></div>
 </section>
 
 <section class="page">
@@ -132,7 +133,7 @@ p { margin:0 0 3mm; }
   <div class="step"><div class="step-no"><span>4</span></div><div class="step-body"><strong>En Inicio, pulsa Detectar.</strong><p>La aplicación consulta el servicio eSCL y comprueba que el equipo sea una MFC-J5740DW con capacidades ADF. Si la búsqueda automática no la encuentra, escribe la IP manualmente.</p></div></div>
   <div class="step"><div class="step-no"><span>5</span></div><div class="step-body"><strong>Pulsa Instalar y configurar.</strong><p>Se validan los requisitos, se comprueba el DEB, se extrae en el perfil personal, se prepara SANE y se registra el escáner en la IP detectada.</p></div></div>
   <div class="callout blue"><strong>Controlador preferido:</strong> <span class="tag">drivers/brscan5-1.8.0-0.amd64.deb</span>. La aplicación busca primero este archivo incluido y solo ofrece descarga alternativa si no está disponible o no supera la verificación.</div>
-  <div class="footer"><div class="left">Instalación sin root · El DEB original se conserva sin modificar</div><div class="right">2 / 4</div></div>
+  <div class="footer"><div class="left">Instalación sin root · El DEB original se conserva sin modificar</div><div class="right">2 / 5</div></div>
 </section>
 
 <section class="page">
@@ -151,10 +152,10 @@ p { margin:0 0 3mm; }
   <div class="step"><div class="step-no"><span>2</span></div><div class="step-body"><strong>Selecciona el origen Alimentador automático / ADF.</strong><p>No elijas Cristal / Platen si deseas usar la bandeja superior.</p></div></div>
   <div class="step"><div class="step-no"><span>3</span></div><div class="step-body"><strong>Para originales a doble cara, activa dúplex.</strong><p>La disponibilidad de la opción depende de la selección de origen y de la versión de la aplicación de escaneo.</p></div></div>
   <div class="step"><div class="step-no"><span>4</span></div><div class="step-body"><strong>Inicia la digitalización y verifica el recorrido del papel.</strong><p>La prueba definitiva del ADF es que el original entre por los rodillos superiores; el estado eSCL de papel cargado no demuestra por sí solo el origen utilizado.</p></div></div>
-  <div class="callout green"><strong>Consejo:</strong> coloca los originales alineados en la bandeja ADF, ajusta las guías laterales y empieza con una hoja de prueba antes de escanear un lote.</div>
+  <div class="callout brand"><strong>Consejo:</strong> coloca los originales alineados en la bandeja ADF, ajusta las guías laterales y empieza con una hoja de prueba antes de escanear un lote.</div>
   <h3 style="margin-top:4mm">Copias y restauración</h3>
   <p>En <strong>Gestión</strong>, crea una copia ZIP del registro de dispositivo Brother y de la configuración de backends SANE. La restauración solo acepta esos archivos conocidos y muestra una confirmación antes de sustituirlos. Las imágenes y documentos escaneados no se incluyen en esta copia.</p>
-  <div class="footer"><div class="left">Interfaz visual · Gestión · Diagnóstico · Copias de configuración</div><div class="right">3 / 4</div></div>
+  <div class="footer"><div class="left">Interfaz visual · Gestión · Diagnóstico · Copias de configuración</div><div class="right">3 / 5</div></div>
 </section>
 
 <section class="page">
@@ -189,10 +190,10 @@ p { margin:0 0 3mm; }
     <div class="contact-line">Avenida Andalucía, 48 · 29360 Montejaque (Málaga)</div>
     <div class="contact-line">633 402 959 · montejaque@puntosvuela.es</div>
     <div class="contact-line">puntosvuela.es/centros/montejaque</div>
-    <div class="contact-line" style="margin-top:4mm;color:#DDE8DD;font-size:8pt">Desarrollador: Francisco Javier Gallego Orellana</div>
+    <div class="contact-line" style="margin-top:4mm;color:#EEEEEE;font-size:8pt">Desarrollador: Francisco Javier Gallego Orellana</div>
   </div>
   <div class="brand-strip"></div>
-  <p class="small" style="margin-top:3mm">Versión 1.6.0 · Guía PDF de cinco páginas · Tipografía Inter incrustada. El controlador brscan5 es software propietario de Brother Industries, Ltd.; se distribuye sin modificar y este proyecto no es una aplicación oficial de Brother.</p>
+  <p class="small" style="margin-top:3mm">Versión 1.6.1 · Guía PDF de cinco páginas · Tipografía Inter incrustada. El controlador brscan5 es software propietario de Brother Industries, Ltd.; se distribuye sin modificar y este proyecto no es una aplicación oficial de Brother.</p>
   <div class="footer"><div class="left">Punto Vuela Montejaque · Brother MFC-J5740DW SinRoot</div><div class="right">4 / 5</div></div>
 </section>
 
@@ -200,12 +201,12 @@ p { margin:0 0 3mm; }
   <div class="topline"></div>
   <div class="eyebrow">04 · Distribución AppImage y ZIP</div>
   <h2>Ejecuta la herramienta sin instalar Python</h2>
-  <p>La versión 1.6.0 incorpora un paquete AppImage de 64 bits. Incluye el intérprete Python y Tkinter utilizados por la interfaz, junto con el controlador DEB original, la guía y el icono. Se abre directamente desde el escritorio Linux.</p>
-  <div class="callout green"><strong>Formato recomendado:</strong> AppImage para el uso diario. No necesita ejecutar el instalador del proyecto ni instalar Python/Tkinter por separado.</div>
+  <p>La versión 1.6.1 incorpora un paquete AppImage de 64 bits. Incluye el intérprete Python y Tkinter utilizados por la interfaz, junto con el controlador DEB original, la guía y el icono. Se abre directamente desde el escritorio Linux.</p>
+  <div class="callout brand"><strong>Formato recomendado:</strong> AppImage para el uso diario. No necesita ejecutar el instalador del proyecto ni instalar Python/Tkinter por separado.</div>
   <h3>Primer inicio</h3>
-  <div class="step"><div class="step-no"><span>1</span></div><div class="step-body"><strong>Descarga el archivo AppImage.</strong><p>Nombre: <strong>Brother_MFC-J5740DW_SinRoot_1.6.0-x86_64.AppImage</strong>.</p></div></div>
+  <div class="step"><div class="step-no"><span>1</span></div><div class="step-body"><strong>Descarga el archivo AppImage.</strong><p>Nombre: <strong>Brother_MFC-J5740DW_SinRoot_1.6.1-x86_64.AppImage</strong>.</p></div></div>
   <div class="step"><div class="step-no"><span>2</span></div><div class="step-body"><strong>Permite su ejecución.</strong><p>En Propiedades, activa «Permitir ejecutar como programa», o abre una terminal en su carpeta.</p></div></div>
-  <div class="code">chmod +x Brother_MFC-J5740DW_SinRoot_1.6.0-x86_64.AppImage<br>./Brother_MFC-J5740DW_SinRoot_1.6.0-x86_64.AppImage</div>
+  <div class="code">chmod +x Brother_MFC-J5740DW_SinRoot_1.6.1-x86_64.AppImage<br>./Brother_MFC-J5740DW_SinRoot_1.6.1-x86_64.AppImage</div>
   <div class="step"><div class="step-no"><span>3</span></div><div class="step-body"><strong>Detecta y configura la impresora.</strong><p>En Inicio, pulsa Detectar o introduce la IP; continúa con Instalar y configurar. Desde Gestión puedes crear accesos directos persistentes.</p></div></div>
   <h3 style="margin-top:5mm">Qué incluye cada formato</h3>
   <table class="ui-list">

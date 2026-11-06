@@ -24,7 +24,7 @@ import tkinter.font as tkfont
 from tkinter import filedialog, messagebox, ttk
 
 APP_TITLE = "Brother MFC-J5740DW · Punto Vuela Montejaque"
-APP_VERSION = "1.6.0"
+APP_VERSION = "1.6.1"
 MODEL = "MFC-J5740DW"
 DEVICE_NAME = "Brother_MFC-J5740DW"
 DEVELOPER_NAME = "Francisco Javier Gallego Orellana"
@@ -33,23 +33,22 @@ CENTER_ADDRESS = "Avenida Andalucía, 48 · 29360 Montejaque (Málaga)"
 CENTER_PHONE = "633 402 959"
 CENTER_EMAIL = "montejaque@puntosvuela.es"
 
-# Paleta de identidad visual Puntos Vuela (amarillo principal y colores de apoyo).
+# Identidad visual actual Puntos Vuela: amarillo corporativo y negro.
 BRAND = {
     "yellow": "#F3D54E",
-    "green": "#7BA880",
+    "black": "#000000",
     "coral": "#E56359",
-    "olive": "#AE9E3A",
+    "olive": "#C8A82E",
     "blue": "#87ACD4",
-    "ink": "#26332C",
-    "muted": "#66736B",
+    "ink": "#111111",
+    "muted": "#666666",
     "canvas": "#FBFAF6",
     "white": "#FFFFFF",
-    "line": "#E8E4D8",
+    "line": "#E5E1D6",
     "yellow_soft": "#FFF9E5",
-    "green_soft": "#EDF4EE",
     "blue_soft": "#EEF4FA",
     "coral_soft": "#FFF0ED",
-    "log_bg": "#27332D",
+    "log_bg": "#111111",
     "log_fg": "#F6F7F3",
 }
 SUPPORT_URL = "https://support.brother.com/g/b/downloadtop.aspx?c=es&lang=es&prod=mfcj5740dw_eu_as"
@@ -606,19 +605,19 @@ class App(tk.Tk):
         style.configure("TLabel", background=BRAND["canvas"], foreground=BRAND["ink"], font=normal)
         style.configure("Muted.TLabel", background=BRAND["canvas"], foreground=BRAND["muted"], font=(fam, 9))
         style.configure("Title.TLabel", background=BRAND["canvas"], foreground=BRAND["ink"], font=(fam, 23, "bold"))
-        style.configure("Section.TLabel", background=BRAND["canvas"], foreground=BRAND["green"], font=(fam, 10, "bold"))
+        style.configure("Section.TLabel", background=BRAND["canvas"], foreground=BRAND["black"], font=(fam, 10, "bold"))
         style.configure("TButton", font=(fam, 10), padding=(12, 8), background=BRAND["white"], foreground=BRAND["ink"], bordercolor=BRAND["line"])
         style.map("TButton", background=[("active", BRAND["yellow_soft"]), ("pressed", BRAND["yellow"])])
         style.configure("Primary.TButton", font=(fam, 10, "bold"), padding=(13, 9), background=BRAND["yellow"], foreground=BRAND["ink"], bordercolor=BRAND["yellow"])
         style.map("Primary.TButton", background=[("active", "#E8C63D"), ("pressed", BRAND["olive"])])
         style.configure("TLabelframe", background=BRAND["canvas"], bordercolor=BRAND["line"], relief="solid")
-        style.configure("TLabelframe.Label", background=BRAND["canvas"], foreground=BRAND["green"], font=(fam, 10, "bold"))
+        style.configure("TLabelframe.Label", background=BRAND["canvas"], foreground=BRAND["black"], font=(fam, 10, "bold"))
         style.configure("TEntry", font=normal, fieldbackground=BRAND["white"], foreground=BRAND["ink"], padding=6)
         style.configure("TNotebook", background=BRAND["canvas"], borderwidth=0)
         style.configure("TNotebook.Tab", font=(fam, 10, "bold"), padding=(18, 10), background="#F0EEE6", foreground=BRAND["muted"])
         style.map("TNotebook.Tab", background=[("selected", BRAND["white"])], foreground=[("selected", BRAND["ink"])])
         style.configure("Treeview", font=(fam, 9), rowheight=27, background=BRAND["white"], fieldbackground=BRAND["white"], foreground=BRAND["ink"])
-        style.configure("Treeview.Heading", font=(fam, 9, "bold"), background=BRAND["green_soft"], foreground=BRAND["ink"])
+        style.configure("Treeview.Heading", font=(fam, 9, "bold"), background=BRAND["yellow_soft"], foreground=BRAND["ink"])
 
         root = ttk.Frame(self, padding=(18, 14, 18, 12))
         root.pack(fill="both", expand=True)
@@ -630,12 +629,12 @@ class App(tk.Tk):
         title_col.pack(side="left", fill="x", expand=True)
         ttk.Label(title_col, text="Brother MFC-J5740DW", style="Title.TLabel").pack(anchor="w")
         ttk.Label(title_col, text=f"ASISTENTE DE ESCÁNER · PUNTO VUELA MONTEJAQUE · VERSIÓN {APP_VERSION}", style="Muted.TLabel").pack(anchor="w", pady=(2, 0))
-        brand_tag = tk.Label(header, text="SIN ROOT", bg=BRAND["green_soft"], fg=BRAND["ink"], font=(fam, 9, "bold"), padx=14, pady=8)
+        brand_tag = tk.Label(header, text="SIN ROOT", bg=BRAND["yellow_soft"], fg=BRAND["ink"], font=(fam, 9, "bold"), padx=14, pady=8)
         brand_tag.pack(side="right", anchor="center", padx=(10, 0))
 
-        status = tk.Frame(root, bg=BRAND["green_soft"], highlightbackground=BRAND["green"], highlightthickness=1)
+        status = tk.Frame(root, bg=BRAND["yellow_soft"], highlightbackground=BRAND["black"], highlightthickness=1)
         status.pack(fill="x", pady=(0, 12))
-        tk.Label(status, textvariable=self.status_var, bg=BRAND["green_soft"], fg=BRAND["ink"], font=(fam, 10, "bold"), anchor="w", padx=13, pady=10).pack(fill="x")
+        tk.Label(status, textvariable=self.status_var, bg=BRAND["yellow_soft"], fg=BRAND["ink"], font=(fam, 10, "bold"), anchor="w", padx=13, pady=10).pack(fill="x")
 
         self.tabs = ttk.Notebook(root)
         self.tabs.pack(fill="both", expand=True)
@@ -791,7 +790,7 @@ class App(tk.Tk):
         faq = [
             ("¿Necesito permisos de administrador?", "No para instalar y configurar brscan5 con este asistente. El equipo sí debe tener previamente Python/Tkinter, SANE, bubblewrap y Escáner de documentos. Si falta alguno, una persona administradora debe instalarlo una sola vez."),
             ("¿Dónde está el controlador?", f"Dentro del proyecto, en drivers/{BUNDLED_DRIVER_NAME}. La aplicación valida su SHA-256, versión y arquitectura antes de extraerlo en ~/.local/share/brother-mfc-j5740dw/driver-extracted/."),
-            ("¿Cómo ejecuto la versión AppImage?", "Descarga Brother_MFC-J5740DW_SinRoot_1.6.0-x86_64.AppImage, marca el archivo como ejecutable y ábrelo. No necesita instalar Python/Tkinter. Para escanear siguen siendo necesarios bubblewrap, SANE y simple-scan en el sistema."),
+            ("¿Cómo ejecuto la versión AppImage?", "Descarga Brother_MFC-J5740DW_SinRoot_1.6.1-x86_64.AppImage, marca el archivo como ejecutable y ábrelo. No necesita instalar Python/Tkinter. Para escanear siguen siendo necesarios bubblewrap, SANE y simple-scan en el sistema."),
             ("¿Cómo selecciono el alimentador?", "Abre Escáner de documentos y elige Alimentador automático / ADF como origen. Para originales a doble cara, activa dúplex cuando esté disponible. Comprueba que la hoja entra por los rodillos superiores."),
             ("¿Qué se conserva al desinstalar?", "El desinstalador elimina la aplicación y sus accesos directos. Conserva el controlador extraído y la configuración personal para evitar pérdidas accidentales. Puedes revisarlos desde Gestión > Abrir ubicaciones."),
             ("¿Qué no modifica?", "No instala DEB en el sistema ni ejecuta postinst. No modifica CUPS, brscan4, /usr, /opt ni /etc reales. La simulación de rutas se limita al proceso ejecutado dentro de bubblewrap."),

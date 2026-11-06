@@ -1,5 +1,11 @@
 # Historial de cambios
 
+## 1.6.1
+- Actualizada la identidad visual de la interfaz y documentación al amarillo #F3D54E y negro #000000 de Puntos Vuela.
+- Eliminados los acentos y fondos verdes; los fondos suaves pasan a amarillo claro y neutros.
+- Actualizados el icono de aplicación, manual PDF, AppImage y ZIP.
+
+
 ## 1.6.0
 - Añadida distribución AppImage x86_64 con Python/Tkinter empaquetados para ejecución directa.
 - Adaptada la interfaz de gestión para ejecución AppImage, creación de accesos del menú/escritorio y retirada de accesos sin borrar el AppImage ni los datos del escáner.

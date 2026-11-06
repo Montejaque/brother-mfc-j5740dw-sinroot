@@ -2,10 +2,14 @@
 
 **Asistente gráfico para Ubuntu/Debian de 64 bits · Wi-Fi · Brother brscan5 · sin privilegios de administrador**
 
-**Versión:** 1.6.0  
+**Versión:** 1.6.1  
 **Desarrollador:** Francisco Javier Gallego Orellana  
 **Centro de referencia:** Punto Vuela Montejaque · Avenida Andalucía, 48 · 29360 Montejaque (Málaga)  
 **Contacto:** 633 402 959 · montejaque@puntosvuela.es · [Web oficial](https://puntosvuela.es/centros/montejaque)
+
+## Identidad visual
+
+La interfaz, el icono y la documentación siguen la identidad visual actual de Puntos Vuela: amarillo corporativo #F3D54E y negro #000000. Se han retirado los tonos y fondos verdes heredados.
 
 ## Descargas y formatos
 
@@ -14,16 +18,16 @@ La distribución de esta versión ofrece dos opciones:
 1. **AppImage (recomendada):** un único ejecutable para Linux x86_64. Incluye el intérprete Python y Tkinter necesarios para abrir la interfaz. No requiere ejecutar `instalar.sh`.
 2. **ZIP del proyecto:** contiene el código fuente, instaladores por usuario, documentación, controlador DEB original, icono y AppImage generado. Mantiene también la opción de ejecutar desde código cuando Python 3 y Tkinter ya están instalados.
 
-Los archivos se publican como artefactos de GitHub Actions en el repositorio privado: abre [Actions](https://github.com/Montejaque/brother-mfc-j5740dw-sinroot/actions), selecciona la ejecución más reciente de **Build AppImage and ZIP** y descarga el artefacto `Brother_MFC-J5740DW_SinRoot-1.6.0-linux-x86_64` (la sesión de GitHub debe tener acceso al repositorio).
+Los archivos se publican como artefactos de GitHub Actions en el repositorio privado: abre [Actions](https://github.com/Montejaque/brother-mfc-j5740dw-sinroot/actions), selecciona la ejecución más reciente de **Build AppImage and ZIP** y descarga el artefacto `Brother_MFC-J5740DW_SinRoot-1.6.1-linux-x86_64` (la sesión de GitHub debe tener acceso al repositorio).
 
 ### Ejecutar AppImage
 
-1. Descarga `Brother_MFC-J5740DW_SinRoot_1.6.0-x86_64.AppImage`.
+1. Descarga `Brother_MFC-J5740DW_SinRoot_1.6.1-x86_64.AppImage`.
 2. En Propiedades, marca **Permitir ejecutar como programa**, o usa:
 
    ```bash
-   chmod +x Brother_MFC-J5740DW_SinRoot_1.6.0-x86_64.AppImage
-   ./Brother_MFC-J5740DW_SinRoot_1.6.0-x86_64.AppImage
+   chmod +x Brother_MFC-J5740DW_SinRoot_1.6.1-x86_64.AppImage
+   ./Brother_MFC-J5740DW_SinRoot_1.6.1-x86_64.AppImage
    ```
 
 3. En la interfaz, usa **Inicio > Detectar**; si no encuentra la impresora, introduce su IP.

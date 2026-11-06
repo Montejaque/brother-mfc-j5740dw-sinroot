@@ -1,5 +1,5 @@
 Brother MFC-J5740DW SinRoot
-Versión: 1.6.0
+Versión: 1.6.1
 Objetivo: Ubuntu/Debian x86_64 (AppImage y código portable)
 Desarrollador: Francisco Javier Gallego Orellana
 Centro de referencia: Punto Vuela Montejaque
@@ -7,3 +7,4 @@ Controlador incluido: brscan5 1.8.0-0 amd64
 SHA-256: 27bf1d561da2223c9807726cc3ec1bd9e7cdce419a27ee79b31a642073174d46
 Interfaz: Tkinter empaquetado con PyInstaller para AppImage; Inter cuando está disponible.
 Guía: PDF A4 de cinco páginas con tipografía Inter incrustada.
+Identidad visual: amarillo corporativo #F3D54E y negro #000000; sin tonos verdes.
